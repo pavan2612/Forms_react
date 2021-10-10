@@ -7,16 +7,14 @@ const BasicForm = (props) => {
     inputChangeHandler:firstNameInputChangeHandler ,
     enteredInput: enteredFirstName,
     inputIsInvalid:firstNameInputIsInvalid,
-    reset:resetFirstName,
-    enteredInputIsValid: enterFirstNameIsValid} = useInput(inputName)
+    reset:resetFirstName} = useInput(inputName)
 
     const {
       inputBlurHandler:lastNameInputBlurHandler,
       inputChangeHandler:lastNameInputChangeHandler ,
       enteredInput: enteredLastName,
       inputIsInvalid:lastNameInputIsInvalid,
-      reset:resetLastName,
-      enteredInputIsValid: enterLastNameIsValid} = useInput(inputName)
+      reset:resetLastName} = useInput(inputName)
   
 
     const inputPassword = (name) => name.includes('@')
@@ -25,18 +23,16 @@ const BasicForm = (props) => {
       inputChangeHandler:passwordInputChangeHandler ,
       enteredInput: enteredPassword,
       inputIsInvalid:passwordInputIsInvalid,
-      reset:resetPassword,
-      enteredInputIsValid:enterPasswordIsValid} = useInput(inputPassword)
+      reset:resetPassword} = useInput(inputPassword)
 
+      let formIsValid = false
+      if(firstNameInputIsInvalid && lastNameInputIsInvalid && passwordInputIsInvalid){
+        formIsValid=true
+      }
+  
     const submitHandler = (event) => {
     event.preventDefault()
-    if(!enterFirstNameIsValid){
-      return
-    }
-    if(!enterLastNameIsValid){
-      return
-    }
-    if(!enterPasswordIsValid){
+    if(!formIsValid){
       return
     }
     resetFirstName()
@@ -47,11 +43,6 @@ const BasicForm = (props) => {
   const inputLastClassname = lastNameInputIsInvalid ? 'form-control  invalid' : 'form-control'
   const inputClasspassword = passwordInputIsInvalid ? 'form-control  invalid' : 'form-control'
   
-  let formIsValid = false
-    if(firstNameInputIsInvalid && lastNameInputIsInvalid && passwordInputIsInvalid){
-      formIsValid=true
-    }
-
   return (
     <form onSubmit={submitHandler}>
       <div className='control-group'>
@@ -62,7 +53,7 @@ const BasicForm = (props) => {
           value={enteredFirstName} 
           onBlur={firstNameInputBlurHandler}
           onChange={firstNameInputChangeHandler}/>
-          {firstNameInputIsInvalid && <p>please enter valid First name</p>}
+          {firstNameInputIsInvalid && <p className="error-text">please enter valid First name</p>}
         </div>
         <div className={inputLastClassname}>
           <label htmlFor='name'>Last Name</label>
@@ -71,7 +62,7 @@ const BasicForm = (props) => {
           value={enteredLastName} 
           onBlur={lastNameInputBlurHandler}
           onChange={lastNameInputChangeHandler}/>
-          {lastNameInputIsInvalid && <p>please enter valid Last name</p>}
+          {lastNameInputIsInvalid && <p className="error-text">please enter valid Last name</p>}
         </div>
       </div>
       <div className={inputClasspassword}>
@@ -81,7 +72,7 @@ const BasicForm = (props) => {
         value={enteredPassword} 
         onBlur={passwordInputBlurHandler}
         onChange={passwordInputChangeHandler}/>
-        {passwordInputIsInvalid && <p>please enter valid email address</p>}
+        {passwordInputIsInvalid && <p className="error-text">please enter valid email address</p>}
       </div>
       <div className='form-actions'>
         <button disabled={!formIsValid}>Submit</button>

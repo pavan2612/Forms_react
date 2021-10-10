@@ -8,8 +8,7 @@ const SimpleInput = (props) => {
     inputChangeHandler:nameInputChangeHandler ,
     enteredInput: enteredName,
     inputIsInvalid:nameInputIsInvalid,
-    reset:resetName,
-    enteredInputIsValid: enterNameIsValid} = useInput(inputName)
+    reset:resetName} = useInput(inputName)
 
     const inputPassword = (name) => name.includes('@')
   
@@ -18,8 +17,7 @@ const SimpleInput = (props) => {
       inputChangeHandler:passwordInputChangeHandler ,
       enteredInput: enteredPassword,
       inputIsInvalid:passwordInputIsInvalid,
-      reset:resetPassword,
-      enteredInputIsValid:enterPasswordIsValid} = useInput(inputPassword)
+      reset:resetPassword} = useInput(inputPassword)
 
     let formIsValid = false
     if(nameInputIsInvalid && passwordInputIsInvalid){
@@ -28,10 +26,7 @@ const SimpleInput = (props) => {
 
     const submitHandler = (event) => {
     event.preventDefault()
-    if(!enterNameIsValid){
-      return
-    }
-    if(!enterPasswordIsValid){
+    if(!formIsValid){
       return
     }
     resetName()
